@@ -2,6 +2,7 @@ const { User } = require("./Connection");
 const bcrypt = require("bcrypt");
 
 const multer = require("multer");
+const nodemailer = require("nodemailer");
 const ImageModel = require("./Connection");
 
 // Multer configuration for file upload
