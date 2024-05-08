@@ -1,14 +1,12 @@
 // Import required modules
 const express = require("express");
 const bodyParser = require("body-parser");
-
 const nodemailer = require("nodemailer");
 
 const {
   signup,
   login,
   fpassword,
-  post,
   getpost,
   updatedPost,
   deletepost,
@@ -32,9 +30,8 @@ app.post("/login", login);
 // Forgot password route
 app.post("/forgotpassword", fpassword);
 
-
-//Upload Image Route 
-app.post('/postimage',postImage)
+//Upload Image Route
+app.post("/postimage", postImage);
 
 app.get("/post/:postId", getpost);
 

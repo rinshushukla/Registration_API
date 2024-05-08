@@ -1,4 +1,4 @@
-const { User, Post } = require("./Connection");
+const { User } = require("./Connection");
 const bcrypt = require("bcrypt");
 
 const multer = require("multer");
@@ -88,13 +88,6 @@ const fpassword = async (req, res) => {
 };
 
 //Post Route
-const post = async (req, res) => {
-  const { userId, content } = req.body;
-  const newPost = new Post({ userId, content });
-  await newPost.save();
-  res.status(201).json({ message: "Post created successfully" });
-};
-
 const postImage = async (req, res) => {
   upload(req, res, (err) => {
     if (err) {
@@ -117,7 +110,7 @@ const postImage = async (req, res) => {
 
 //Get Post Route
 const getpost = async (req, res) => {
-  const post = await Post.findById(req.params.postId);
+  const post = await ImageModel.findById(req.params.postId);
   if (!post) {
     return res.status(404).json({ message: "Post not found" });
   }
@@ -127,7 +120,7 @@ const getpost = async (req, res) => {
 // Updatepost Route
 const updatedPost = async (req, res) => {
   const { content } = req.body;
-  const updatedPost = await Post.findByIdAndUpdate(
+  const updatedPost = await ImageModel.findByIdAndUpdate(
     req.params.postId,
     { content },
     { new: true }
@@ -139,7 +132,7 @@ const updatedPost = async (req, res) => {
 };
 
 const deletepost = async (req, res) => {
-  const deletedPost = await Post.findByIdAndDelete(req.params.postId);
+  const deletedPost = await ImageModel.findByIdAndDelete(req.params.postId);
   if (!deletedPost) {
     return res.status(404).json({ message: "Post not found" });
   }
@@ -148,7 +141,7 @@ const deletepost = async (req, res) => {
 
 //Like Post Route
 const likepost = async (req, res) => {
-  const updatedPost = await Post.findByIdAndUpdate(
+  const updatedPost = await ImageModel.findByIdAndUpdate(
     req.params.postId,
     { $inc: { likes: 1 } },
     { new: true }
@@ -162,7 +155,7 @@ const likepost = async (req, res) => {
 // add Comment Route
 const addcomment = async (req, res) => {
   const { userId, text } = req.body;
-  const updatedPost = await Post.findByIdAndUpdate(
+  const updatedPost = await ImageModel.findByIdAndUpdate(
     req.params.postId,
     { $push: { comments: { userId, text } } },
     { new: true }
@@ -177,7 +170,6 @@ module.exports = {
   signup,
   login,
   fpassword,
-  post,
   getpost,
   updatedPost,
   deletepost,
